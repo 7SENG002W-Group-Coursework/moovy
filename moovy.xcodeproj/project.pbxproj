@@ -14,6 +14,15 @@
 		EA79CEBB2BE71D1200321125 /* moovyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEBA2BE71D1200321125 /* moovyTests.swift */; };
 		EA79CEC52BE71D1200321125 /* moovyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEC42BE71D1200321125 /* moovyUITests.swift */; };
 		EA79CEC72BE71D1200321125 /* moovyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEC62BE71D1200321125 /* moovyUITestsLaunchTests.swift */; };
+		EA79CED92BE7230900321125 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA79CED82BE7230900321125 /* Colors.xcassets */; };
+		EA79CEDB2BE7278D00321125 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEDA2BE7278D00321125 /* ColorManager.swift */; };
+		EA79CEDD2BE7AE7C00321125 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEDC2BE7AE7C00321125 /* SplashView.swift */; };
+		EA79CEE12BE7D78000321125 /* MovieCardMid.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEE02BE7D78000321125 /* MovieCardMid.swift */; };
+		EA79CEE32BE7D7C900321125 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEE22BE7D7C900321125 /* Movie.swift */; };
+		EA79CEE52BE854C300321125 /* MovieCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEE42BE854C300321125 /* MovieCard.swift */; };
+		EA79CEE72BE8571600321125 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEE62BE8571600321125 /* HomeView.swift */; };
+		EA79CEE92BE8588400321125 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEE82BE8588400321125 /* HomeViewModel.swift */; };
+		EA79CEEB2BE85E1300321125 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA79CEEA2BE85E1300321125 /* Tabs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,15 @@
 		EA79CEC02BE71D1200321125 /* moovyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = moovyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA79CEC42BE71D1200321125 /* moovyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moovyUITests.swift; sourceTree = "<group>"; };
 		EA79CEC62BE71D1200321125 /* moovyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moovyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EA79CED82BE7230900321125 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = moovy/Colors.xcassets; sourceTree = SOURCE_ROOT; };
+		EA79CEDA2BE7278D00321125 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
+		EA79CEDC2BE7AE7C00321125 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		EA79CEE02BE7D78000321125 /* MovieCardMid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCardMid.swift; sourceTree = "<group>"; };
+		EA79CEE22BE7D7C900321125 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		EA79CEE42BE854C300321125 /* MovieCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCard.swift; sourceTree = "<group>"; };
+		EA79CEE62BE8571600321125 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		EA79CEE82BE8588400321125 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		EA79CEEA2BE85E1300321125 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +112,13 @@
 		EA79CEA82BE71D1100321125 /* moovy */ = {
 			isa = PBXGroup;
 			children = (
+				EA79CED82BE7230900321125 /* Colors.xcassets */,
+				EA79CED72BE7222800321125 /* utils */,
+				EA79CED62BE7206D00321125 /* components */,
+				EA79CED52BE7205300321125 /* Models */,
+				EA79CED42BE7204A00321125 /* ViewModels */,
+				EA79CED32BE7203E00321125 /* views */,
 				EA79CEA92BE71D1100321125 /* moovyApp.swift */,
-				EA79CEAB2BE71D1100321125 /* ContentView.swift */,
 				EA79CEAD2BE71D1200321125 /* Assets.xcassets */,
 				EA79CEAF2BE71D1200321125 /* Preview Content */,
 			);
@@ -125,6 +148,50 @@
 				EA79CEC62BE71D1200321125 /* moovyUITestsLaunchTests.swift */,
 			);
 			path = moovyUITests;
+			sourceTree = "<group>";
+		};
+		EA79CED32BE7203E00321125 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				EA79CEAB2BE71D1100321125 /* ContentView.swift */,
+				EA79CEDC2BE7AE7C00321125 /* SplashView.swift */,
+				EA79CEE62BE8571600321125 /* HomeView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		EA79CED42BE7204A00321125 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				EA79CEE82BE8588400321125 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		EA79CED52BE7205300321125 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EA79CEE22BE7D7C900321125 /* Movie.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EA79CED62BE7206D00321125 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				EA79CEE02BE7D78000321125 /* MovieCardMid.swift */,
+				EA79CEE42BE854C300321125 /* MovieCard.swift */,
+				EA79CEEA2BE85E1300321125 /* Tabs.swift */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
+		EA79CED72BE7222800321125 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				EA79CEDA2BE7278D00321125 /* ColorManager.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA79CED92BE7230900321125 /* Colors.xcassets in Resources */,
 				EA79CEB12BE71D1200321125 /* Preview Assets.xcassets in Resources */,
 				EA79CEAE2BE71D1200321125 /* Assets.xcassets in Resources */,
 			);
@@ -257,8 +325,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA79CEDB2BE7278D00321125 /* ColorManager.swift in Sources */,
+				EA79CEE92BE8588400321125 /* HomeViewModel.swift in Sources */,
+				EA79CEDD2BE7AE7C00321125 /* SplashView.swift in Sources */,
+				EA79CEEB2BE85E1300321125 /* Tabs.swift in Sources */,
+				EA79CEE32BE7D7C900321125 /* Movie.swift in Sources */,
+				EA79CEE52BE854C300321125 /* MovieCard.swift in Sources */,
 				EA79CEAC2BE71D1100321125 /* ContentView.swift in Sources */,
+				EA79CEE72BE8571600321125 /* HomeView.swift in Sources */,
 				EA79CEAA2BE71D1100321125 /* moovyApp.swift in Sources */,
+				EA79CEE12BE7D78000321125 /* MovieCardMid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
