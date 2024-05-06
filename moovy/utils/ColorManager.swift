@@ -6,6 +6,8 @@ struct ColorManager {
     static let backgroundColor = Color("BackgroundColor")
     static let accentColor = Color("AccentColor")
     static let secondaryAccentColor = Color("SecondaryAccentColor")
+    static let tertiaryAccentColor = Color("TertiaryAccentColor")
+    static let ratingsColor = Color("RatingsColor")
 
     //... add the rest of our colors here
 }
@@ -16,6 +18,8 @@ extension Color {
     static let backgroundColor = Color("BackgroundColor")
     static let accentColor = Color("AccentColor")
     static let secondaryAccentColor = Color("SecondaryAccentColor")
+    static let tertiaryAccentColor = Color("TertiaryAccentColor")
+    static let ratingsColor = Color("RatingsColor")
  
     // ... add the rest of our colors here
 }

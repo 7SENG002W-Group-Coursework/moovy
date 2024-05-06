@@ -15,7 +15,7 @@ struct SplashView: View {
         ZStack{
             ColorManager.backgroundColor
             if self.isActive{
-                HomeView()
+                ContentView()
             }else{
                 Image("AppLogo")
                     .resizable()

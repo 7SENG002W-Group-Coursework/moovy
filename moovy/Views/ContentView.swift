@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedNavTab: NavTab = .house
+    
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+                    TabView(selection: $selectedNavTab) {
+                        HomeView()
+                            .tag(NavTab.house)
+                        SearchView()
+                            .tag(NavTab.magnifyingglass)
+                        Text("Bookmarks")
+                            .tag(NavTab.bookmark)
+                        Text("Settings")
+                            .tag(NavTab.gearshape)
+                    }
+                    
+                    VStack {
+                        Spacer()
+                        BottomNav(selectedNavTab: $selectedNavTab)
+                    }
+                    .edgesIgnoringSafeArea(.bottom)
+                }
     }
 }
 

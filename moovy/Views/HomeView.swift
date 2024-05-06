@@ -13,25 +13,10 @@ struct HomeView: View {
     @State private var selectedTabB: Int = 0
     @State private var searchText = ""
     
-    // Dummy data to be searched
-    let data = [
-        "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew"
-    ]
-    
-    // Computed property to filter data based on search text
-    var filteredData: [String] {
-        if searchText.isEmpty {
-            return data
-        } else {
-            return data.filter { $0.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
-    
     init() {
             //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance()
             .largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!, .foregroundColor: UIColor.white]
-
     
         }
     
@@ -125,9 +110,9 @@ struct HomeView: View {
                     
                    
                     .navigationTitle("What do you want to watch?")
-                    .searchable(text: $searchText)
+//                    .searchable(text: $searchText)
                 }
-            }
+            }.padding(EdgeInsets(top: 0, leading: 0, bottom: 50, trailing: 0))
             .background(ColorManager.backgroundColor)
         }
         

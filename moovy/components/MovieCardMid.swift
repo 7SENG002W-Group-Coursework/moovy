@@ -10,8 +10,8 @@ import SwiftUI
 struct MovieCardMid: View {
     let movie: Movie
     let index: Int
-    var imageWidth: Double = 145
-    var imageHeight: Double = 210
+    var imageWidth: Double = 130
+    var imageHeight: Double = 200
     var body: some View {
             ZStack(alignment: .init(horizontal: .leading, vertical: .bottom)) {
                 VStack {
@@ -39,5 +39,5 @@ struct MovieCardMid: View {
 
 
 #Preview {
-    MovieCardMid(movie: Movie(movieName: "Jurassic", logo: "Jurassic"), index: 2)
+    MovieCardMid(movie: Movie(title: "Jurassic", logo: "Jurassic"), index: 2)
 }

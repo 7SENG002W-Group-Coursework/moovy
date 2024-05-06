@@ -89,9 +89,9 @@ public struct Tabs<Content>: View where Content : View
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    .onChange(of: selectedTab) { target in
+                    .onChange(of: selectedTab){ oldState, newState in
                         withAnimation {
-                            proxy.scrollTo(target)
+                            proxy.scrollTo(newState)
                         }
                     }
                 }

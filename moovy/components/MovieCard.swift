@@ -26,5 +26,5 @@ struct MovieCard: View {
 }
 
 #Preview {
-    MovieCard(movie: Movie(movieName: "Jurassic", logo: "Jurassic"))
+    MovieCard(movie: Movie(title: "Jurassic", logo: "Jurassic"))
 }
