@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SearchTextField: View {
     @Binding var searchText: String
+    @Binding var selectedTab: Int
+    @StateObject var viewModel: SearchViewModel
     @FocusState var isFocused
     
     var body: some View {
@@ -16,7 +18,6 @@ struct SearchTextField: View {
             TextField("", text: $searchText, prompt: Text("Search").foregroundColor(.gray))
                 .padding(7)
                 .padding(.horizontal, 25)
-                .frame(width: .infinity, height: 45)
                 .background(Color(.secondaryAccent))
                 .cornerRadius(20)
                 .foregroundColor(.white)
@@ -30,7 +31,7 @@ struct SearchTextField: View {
                     }
                 )
                 .onChange(of: searchText) { oldState, newState in
-                    
+                    filterString(newState, $searchText)
                 }
                 .autocapitalization(.none)
                 .keyboardType(.default)
@@ -45,10 +46,31 @@ struct SearchTextField: View {
                 })
             }
         }
+        .frame(width: UIScreen.main.bounds.width, height: 45)
         .padding(.horizontal, 10)
     }
+    
+    private func filterString(_ newString: String, _ binding: Binding<String>)
+    {
+        let filteredString = newString.filter { $0.isLetter || $0.isWhitespace || $0.isNumber  }
+        
+        if filteredString != newString {
+                    searchText = filteredString
+            }
+        if selectedTab == 0{
+            Task{
+                await viewModel.fetchMoviesSearch(query: newString)
+            }
+        }else {
+            Task{
+                await viewModel.fetchShowsSearch(query: newString)
+            }
+        }
+        
+    }
+    
 }
 
 #Preview {
-    SearchTextField(searchText: .constant(""))
+    SearchTextField(searchText: .constant(""), selectedTab: .constant(0), viewModel: SearchViewModel())
 }

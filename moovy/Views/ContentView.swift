@@ -20,7 +20,7 @@ struct ContentView: View {
                             .tag(NavTab.house)
                         SearchView()
                             .tag(NavTab.magnifyingglass)
-                        Text("Bookmarks")
+                        Text("Watch List")
                             .tag(NavTab.bookmark)
                         Text("Settings")
                             .tag(NavTab.gearshape)
