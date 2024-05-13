@@ -9,8 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
-    @StateObject private var mViewModel = MovieDetailsViewModel()
-    @StateObject private var sViewModel = ShowDetailsViewModel()
+    @EnvironmentObject var mViewModel: MovieDetailsViewModel
+    @EnvironmentObject var sViewModel: ShowDetailsViewModel
     @State private var selectedTab: Int = 0
     @State private var selectedTabB: Int = 0
     @State private var selectedMovie: SmallDisplay?
@@ -65,7 +65,7 @@ struct HomeView: View {
                                             if selectedTrending?.mediaType == "movie" {
                                                 MovieDetailView(viewModel: mViewModel)
                                             } else {
-                                                ShowDetailView(viewModel: sViewModel)
+                                                ShowDetailView()
                                             }
                                         }
                                 }
@@ -271,7 +271,7 @@ struct HomeView: View {
                                                         }
                                                     }
                                                     .sheet(isPresented: $isShowDetailPresented){
-                                                        ShowDetailView(viewModel: sViewModel)
+                                                        ShowDetailView()
                                                     }
                                             }
                                         }
@@ -302,7 +302,7 @@ struct HomeView: View {
                                                         }
                                                     }
                                                     .sheet(isPresented: $isShowDetailPresented){
-                                                        ShowDetailView(viewModel: sViewModel)
+                                                        ShowDetailView()
                                                     }
                                             }
                                         }
@@ -333,7 +333,7 @@ struct HomeView: View {
                                                         }
                                                     }
                                                     .sheet(isPresented: $isShowDetailPresented){
-                                                        ShowDetailView(viewModel: sViewModel)
+                                                        ShowDetailView()
                                                     }
                                             }
                                         }

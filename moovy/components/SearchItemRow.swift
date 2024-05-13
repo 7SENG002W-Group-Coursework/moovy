@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchItemRow: View {
     @StateObject private var viewModel = SearchViewModel()
-    let searchItem: SearchItem
+    let searchItem: HorizonalDisplayItem
     var largeText: CGFloat = 23
     var smallText: CGFloat = 15
     var imageHeight: CGFloat = 150
@@ -97,7 +97,7 @@ struct SearchItemRow: View {
 
 #Preview {
     SearchItemRow(searchItem:
-                    SearchItem(
+                    HorizonalDisplayItem(
                         id: 841,
                         title: "Dune",
                         name: "Dune",

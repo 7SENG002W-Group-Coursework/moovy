@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
-    @StateObject private var mViewModel = MovieDetailsViewModel()
-    @StateObject private var sViewModel = ShowDetailsViewModel()
+    @EnvironmentObject var mViewModel: MovieDetailsViewModel
+    @EnvironmentObject var sViewModel: ShowDetailsViewModel
     @State private var selectedTab: Int = 0
     @State var isMovieDetailPresented = false
     @State var isShowDetailPresented = false
     @State private var selectedMovie: SmallDisplay?
-    @State private var selectedItem: SearchItem?
+    @State private var selectedItem: HorizonalDisplayItem?
     @State private var searchText = ""
     @FocusState private var isTextFieldFocused: Bool
     @State private var refreshKey = UUID()
@@ -83,6 +83,8 @@ struct SearchView: View {
                         await mViewModel.fetchMovieDetails(movieId: item.id){
                             
                             selectedItem = item
+                        }
+                        await mViewModel.fetchMovieDetails(movieId: selectedItem!.id){
                             isMovieDetailPresented = true
                         }
                     }
@@ -102,12 +104,15 @@ struct SearchView: View {
                         await sViewModel.fetchShowDetails(showId: item.id){
                             
                             selectedItem = item
+                        }
+                        await sViewModel.fetchShowDetails(showId: selectedItem!.id){
+                            
                             isShowDetailPresented = true
                         }
                     }
                 }
                 .sheet(isPresented: $isShowDetailPresented) {
-                    ShowDetailView(viewModel: sViewModel)
+                    ShowDetailView()
                 }
         }
     }

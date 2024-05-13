@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ShowDetailView: View {
-    @StateObject var viewModel: ShowDetailsViewModel
+    @EnvironmentObject var viewModel: ShowDetailsViewModel
     @State private var selectedTab: Int = 0
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     var imageWidth: Double = 450
     var imageHeight: Double = 250
     var imageWidthSmall: Double = 120
@@ -20,6 +22,30 @@ struct ShowDetailView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack(alignment: .center){
+                HStack{
+                    Spacer()
+                    Text("Tv Show Details")
+                        .font(.system(size: 20, weight: .none))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                    Button(action: toggleBookmark) {
+                        if viewModel.showIsBookmarked {
+                            Image(systemName: "bookmark.fill")  // Filled when bookmarked
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(.blue)
+                        } else {
+                            Image(systemName: "bookmark")  // Outline when not bookmarked
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(.blue)
+                        }
+                    }.alert(alertMessage, isPresented: $showAlert) {
+                        Button("OK", role: .cancel) {}
+                    }
+                }.onAppear {
+                    viewModel.checkBookMarked()
+                }
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 ZStack(alignment: .init(horizontal: .leading, vertical: .bottom)) {
                     VStack {
                         if let image = viewModel.backdropPathImage {
@@ -142,7 +168,7 @@ struct ShowDetailView: View {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack {
                                 ForEach(viewModel.showDetails?.productionCompanies ?? [], id: \.id) { company in
-                                    ShowProductionCompanyCard(productionCompany:company, viewModel: ShowDetailsViewModel())
+                                    ShowProductionCompanyCard(productionCompany:company)
                                 }
                             }
                         }.tag(1)
@@ -152,10 +178,9 @@ struct ShowDetailView: View {
                                 textColor: .white,
                                 activeTextColor: .white.opacity(0.8),
                                 barIndicatorColor:
-                                .secondaryAccentColor.opacity(0.7),
+                            .secondaryAccentColor.opacity(0.7),
                                 heightOfContent: 300)
                 }
-                
             }
         }
         .background(ColorManager.backgroundColor)
@@ -163,17 +188,41 @@ struct ShowDetailView: View {
     
     func openLink() {
         guard let url = URL(string: viewModel.showDetails?.homePage ?? "") else {
-                print("Invalid URL")
-                return
+            print("Invalid URL")
+            return
+        }
+        // Check if the device can open the URL
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func toggleBookmark() {
+        if viewModel.showIsBookmarked {
+            Task {
+                await viewModel.deleteShowFromWatchlist { error in
+                    DispatchQueue.main.async {
+                        viewModel.showIsBookmarked = (error == nil) ? false : true
+                        showAlert = true
+                        alertMessage = error == nil ? "Removed from bookmarks!!!" : "Failed: An error occured"
+                    }
+                }
             }
-            // Check if the device can open the URL
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
+        } else {
+            Task {
+                await viewModel.addShowToWatchlist { error in
+                    DispatchQueue.main.async {
+                        viewModel.showIsBookmarked = (error == nil) ? true : false
+                        showAlert = true
+                        alertMessage = error == nil ? "Added to bookmarks!!!" : "Failed: An error occured"
+                    }
+                }
             }
         }
+    }
 }
 
 
 #Preview {
-    ShowDetailView(viewModel: ShowDetailsViewModel())
+    ShowDetailView()
 }

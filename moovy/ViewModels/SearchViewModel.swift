@@ -12,8 +12,8 @@ import Combine
 class SearchViewModel: ObservableObject {
     @Published var searchMovie: [ResponseResult] = []
     @Published var searchShow: [ResponseResult] = []
-    @Published var searchMovieRowData: [SearchItem] = []
-    @Published var searchShowRowData: [SearchItem] = []
+    @Published var searchMovieRowData: [HorizonalDisplayItem] = []
+    @Published var searchShowRowData: [HorizonalDisplayItem] = []
     @Published var posterPathImage: UIImage? = nil
     @Published var errorOccurred: Bool = false
     @Published var errorMessage: String = ""
@@ -76,8 +76,8 @@ class SearchViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.searchMovie = decodedData.results
-                    let searchItemRow = decodedData.results.map { item -> SearchItem in
-                        SearchItem(id: item.id, title: item.title, name: item.name, rating: item.voteAverage, genreIds: item.genreIds, posterPath: item.posterPath, releaseDate: item.releaseDate, mediaType: item.mediaType)
+                    let searchItemRow = decodedData.results.map { item -> HorizonalDisplayItem in
+                        HorizonalDisplayItem(id: item.id, title: item.title, name: item.name, rating: item.voteAverage, genreIds: item.genreIds, posterPath: item.posterPath, releaseDate: item.releaseDate, mediaType: item.mediaType)
                     }
                     self.searchMovieRowData = searchItemRow
                     // Update UI or process data
@@ -136,8 +136,8 @@ class SearchViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self.searchShow = decodedData.results
-                let searchItemRow = decodedData.results.map { item -> SearchItem in
-                    SearchItem(id: item.id, title: item.title, name: item.name, rating: item.voteAverage, genreIds: item.genreIds, posterPath: item.posterPath, releaseDate: item.releaseDate, mediaType: item.mediaType)
+                let searchItemRow = decodedData.results.map { item -> HorizonalDisplayItem in
+                    HorizonalDisplayItem(id: item.id, title: item.title, name: item.name, rating: item.voteAverage, genreIds: item.genreIds, posterPath: item.posterPath, releaseDate: item.releaseDate, mediaType: item.mediaType)
                 }
                 self.searchShowRowData = searchItemRow
                 // Update UI or process data

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProductionCompanyCard: View {
     let productionCompany: ProductionCompany
-    @StateObject var viewModel:MovieDetailsViewModel
+    @EnvironmentObject var viewModel: MovieDetailsViewModel
     var largeText: CGFloat = 18
     var smallText: CGFloat = 15
     var imageHeight: CGFloat = 50
@@ -67,5 +67,5 @@ struct ProductionCompanyCard: View {
         name: "Legendary Pictures",
         originCountry: "US",
         logoPath: "/8M99Dkt23MjQMTTWukq4m5XsEuo.png"
-    ), viewModel: MovieDetailsViewModel())
+    ))
 }

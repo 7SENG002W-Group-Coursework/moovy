@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SplashView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
     
     @State var isActive: Bool = false
     
@@ -15,7 +16,8 @@ struct SplashView: View {
         ZStack{
             ColorManager.backgroundColor
             if self.isActive{
-                ContentView()
+                AuthManagerView()
+                    .environmentObject(viewModel)
             }else{
                 Image("AppLogo")
                     .resizable()

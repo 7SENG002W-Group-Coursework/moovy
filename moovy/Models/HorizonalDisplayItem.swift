@@ -1,12 +1,12 @@
 //
-//  SearchItem.swift
+//  HorizonalDisplayItem.swift
 //  moovy
 //
-//  Created by Anthony Gibah on 5/10/24.
+//  Created by Anthony Gibah on 5/13/24.
 //
 
 import Foundation
-struct SearchItem {
+struct HorizonalDisplayItem {
     
     let id: Int
     let title: String? // For movies

@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
+// ...
+      
 
 struct ContentView: View {
     @State private var selectedNavTab: NavTab = .house
     
     init() {
         UITabBar.appearance().isHidden = true
+
     }
     var body: some View {
         ZStack {
@@ -20,9 +26,9 @@ struct ContentView: View {
                             .tag(NavTab.house)
                         SearchView()
                             .tag(NavTab.magnifyingglass)
-                        Text("Watch List")
+                        WatchListView()
                             .tag(NavTab.bookmark)
-                        Text("Settings")
+                        Login()
                             .tag(NavTab.gearshape)
                     }
                     

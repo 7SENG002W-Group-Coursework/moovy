@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import Combine
+import FirebaseAuth
+import FirebaseFirestore
 
 class ShowDetailsViewModel: ObservableObject {
     @Published var showDetails: TvSeries? = nil
@@ -22,8 +24,80 @@ class ShowDetailsViewModel: ObservableObject {
     private let showDetailsURLString = "\(BaseApi.showDetails)"
     private let token = "\(BaseApi.apiKey)"
     
+    @Published var showIsBookmarked: Bool = false
+    let db = Firestore.firestore()
+    
+    func addShowToWatchlist(onComplete: @escaping (_ error: String?) -> Void) async{
+        
+        let uid = Auth.auth().currentUser!.uid
+        let showDb = showDetails
+        
+        do {
+            try db.collection("users")
+                .document(uid)
+                .collection("show_watchlist")
+                .document(String(showDetails!.id))
+                .setData(from: showDb)
+            print("Document successfully written!")
+            onComplete(nil)
+        } catch let error {
+            print("Error writing document: \(error)")
+            onComplete("\(error)")
+        }
+    }
+    
+    func deleteShowFromWatchlist(onComplete: @escaping (_ error: String?) -> Void) async{
+        
+        let uid = Auth.auth().currentUser!.uid
+        do {
+            try await db.collection("users")
+                .document(uid)
+                .collection("show_watchlist")
+                .document(String(showDetails!.id))
+                .delete()
+            print("Document successfully removed!")
+            onComplete(nil)
+        } catch let error {
+            print("Error removing document: \(error)")
+            onComplete("\(error)")
+        }
+    }
+    
+    func checkBookMarked() {
+        
+        let uid = Auth.auth().currentUser!.uid
+        db.collection("users").document(uid)
+            .collection("show_watchlist").document(String(showDetails!.id))
+            .addSnapshotListener { [weak self] documentSnapshot, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.errorMessage = "Error fetching document: \(error.localizedDescription)"
+                    }
+                    return
+                }
+                
+                guard let document = documentSnapshot else {
+                    DispatchQueue.main.async {
+                        self.errorMessage = "Error: Document snapshot is nil"
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    if document.exists{
+                        self.showIsBookmarked = true
+                    } else {
+                        self.showIsBookmarked = false
+                    }
+                }
+                
+            }
+    }
+    
+    
     func fetchShowDetails(showId: Int, completion: @escaping () -> Void) async {
-        print("In Here Show======= \(showId)")
         guard var components = URLComponents(string: showDetailsURLString) else {
             print("Invalid URL")
             return
@@ -107,7 +181,7 @@ class ShowDetailsViewModel: ObservableObject {
             print("Error loading image: \(error)")
         }
     }
-
+    
     func loadImageBackdropImage(from urlString: String) async {
         guard let url = URL(string: BaseApi.imageUrl + urlString) else {
             print("Invalid URL")
@@ -125,7 +199,7 @@ class ShowDetailsViewModel: ObservableObject {
             print("Error loading image: \(error)")
         }
     }
-
+    
     
     func fetchGenreName(genreIds: [Int], mediaType: String) {
         guard let firstGenreId = genreIds.first else {
@@ -192,4 +266,4 @@ class ShowDetailsViewModel: ObservableObject {
         }
     }
 }
-    
+
