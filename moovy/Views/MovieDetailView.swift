@@ -1,9 +1,4 @@
-//
-//  MovieDetailView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/11/24.
-//
+
 
 import SwiftUI
 
@@ -208,7 +203,7 @@ struct MovieDetailView: View {
                     DispatchQueue.main.async {
                         viewModel.movieIsBookmarked = (error == nil) ? false : true
                         showAlert = true
-                        alertMessage = error == nil ? "Removed from bookmarks!!!" : "Failed: An error occured"
+                        alertMessage = error == nil ? "Removed from watch list!!!" : "Failed: An error occured"
                     }
                 }
             }
@@ -218,7 +213,7 @@ struct MovieDetailView: View {
                     DispatchQueue.main.async {
                         viewModel.movieIsBookmarked = (error == nil) ? true : false
                         showAlert = true
-                        alertMessage = error == nil ? "Added to bookmarks!!!" : "Failed: An error occured"
+                        alertMessage = error == nil ? "Added to watch list!!!" : "Failed: An error occured"
                     }
                 }
             }

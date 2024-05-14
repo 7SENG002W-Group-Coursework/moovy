@@ -1,15 +1,8 @@
-//
-//  SplashView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/5/24.
-//
 
 import SwiftUI
 
 struct SplashView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    
+    var viewModel = AuthViewModel()
     @State var isActive: Bool = false
     
     var body: some View {

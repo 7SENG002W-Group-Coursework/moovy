@@ -1,15 +1,10 @@
-//
-//  SignUp.swift
-//  moovy
-//
-//  Created by Oladimeji Oladiti on 08/05/2024.
-//
+
 
 import SwiftUI
 
 struct SignUp : View {
-    @StateObject private var viewModel = AuthViewModel()
-    
+    @EnvironmentObject private var viewModel: AuthViewModel
+    @Environment(\.presentationMode) var presentationMode
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
@@ -116,11 +111,24 @@ struct SignUp : View {
                     }.padding(20)
                     .disabled(viewModel.loading)
                     
-                    Text("Log In")
-                        .underline()
-                        .font(Font.system(size: 13, weight: .bold))
-                        .foregroundColor(.gray)
-                        .padding(20)
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        HStack{
+                            Text("Already have an account? ")
+                                .italic()
+                                .font(Font.system(size: 15, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(0)
+                            
+                            Text("Log in")
+                                .underline()
+                                .font(Font.system(size: 15, weight: .bold))
+                                .foregroundColor(.blue)
+                                .padding(0)
+                        }.padding(10)
+                        
+                    }
                 }
                 .padding()
             }
@@ -128,32 +136,40 @@ struct SignUp : View {
     }
     
     private func signUp() {
-        // Basic email validation using regex
         if !username.isValidEmail() {
             errorMessage = "Invalid email address."
             return
         }
         
-        // Validate password criteria with regex
         if !password.isValidPassword() {
             errorMessage = "Must contain uppercase, lowercase & number."
             return
         }
         
-        // Confirm passwords match
         if password != confirmPassword {
             errorMessage = "Passwords don't match."
             return
         }
         
-        errorMessage = "" // Clear error message on successful validation
+        errorMessage = ""
         
         let user = User(email: username, password: password)
         
         Task {
             await viewModel.registerUser(user: user){ result, error in
                 
-                
+                if error == nil {
+                    Task{
+                        await viewModel.checkAuthentication()
+                        viewModel.isAuthenticated = true
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }else{
+                    
+                    viewModel.isAuthenticated = false
+                    errorMessage = "Failed to register!!"
+                    
+                }
                 
             }
         }
@@ -176,4 +192,5 @@ extension String {
 
 #Preview {
     SignUp()
+        .environmentObject(AuthViewModel())
 }

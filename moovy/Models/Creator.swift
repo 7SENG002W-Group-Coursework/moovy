@@ -1,9 +1,4 @@
-//
-//  Creator.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/9/24.
-//
+
 
 import Foundation
 

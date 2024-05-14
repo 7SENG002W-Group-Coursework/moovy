@@ -1,9 +1,4 @@
-//
-//  HorizonalDisplayItem.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/13/24.
-//
+
 
 import Foundation
 struct HorizonalDisplayItem {

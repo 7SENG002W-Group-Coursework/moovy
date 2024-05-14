@@ -1,9 +1,3 @@
-//
-//  DetailsTabs.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/11/24.
-//
 
 import Foundation
 import SwiftUI

@@ -1,9 +1,3 @@
-//
-//  HomeView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/6/24.
-//
 
 import SwiftUI
 
@@ -24,7 +18,7 @@ struct HomeView: View {
     init() {
         //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance()
-            .largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!, .foregroundColor: UIColor.white]
+            .largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 25)!, .foregroundColor: UIColor.white]
         
     }
     
@@ -65,7 +59,7 @@ struct HomeView: View {
                                             if selectedTrending?.mediaType == "movie" {
                                                 MovieDetailView(viewModel: mViewModel)
                                             } else {
-                                                ShowDetailView()
+                                                ShowDetailView(viewModel: sViewModel)
                                             }
                                         }
                                 }
@@ -271,7 +265,7 @@ struct HomeView: View {
                                                         }
                                                     }
                                                     .sheet(isPresented: $isShowDetailPresented){
-                                                        ShowDetailView()
+                                                        ShowDetailView(viewModel: sViewModel)
                                                     }
                                             }
                                         }
@@ -302,7 +296,7 @@ struct HomeView: View {
                                                         }
                                                     }
                                                     .sheet(isPresented: $isShowDetailPresented){
-                                                        ShowDetailView()
+                                                        ShowDetailView(viewModel: sViewModel)
                                                     }
                                             }
                                         }
@@ -333,7 +327,7 @@ struct HomeView: View {
                                                         }
                                                     }
                                                     .sheet(isPresented: $isShowDetailPresented){
-                                                        ShowDetailView()
+                                                        ShowDetailView(viewModel: sViewModel)
                                                     }
                                             }
                                         }

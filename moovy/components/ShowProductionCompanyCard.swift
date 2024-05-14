@@ -1,9 +1,3 @@
-//
-//  ShowProductionCompanyCard.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/12/24.
-//
 
 import SwiftUI
 

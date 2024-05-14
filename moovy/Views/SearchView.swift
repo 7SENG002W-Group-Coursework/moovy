@@ -1,10 +1,4 @@
-//
-//  SearchView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/6/24.
-//
-//https://www.swiftyplace.com/blog/swiftui-search-bar-best-practices-and-examples
+
 import SwiftUI
 
 struct SearchView: View {
@@ -19,6 +13,13 @@ struct SearchView: View {
     @State private var searchText = ""
     @FocusState private var isTextFieldFocused: Bool
     @State private var refreshKey = UUID()
+    
+    init() {
+        //Use this if NavigationBarTitle is with Large Font
+        UINavigationBar.appearance()
+            .largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 25)!, .foregroundColor: UIColor.white]
+        
+    }
     
     var body: some View {
         NavigationStack {
@@ -112,7 +113,7 @@ struct SearchView: View {
                     }
                 }
                 .sheet(isPresented: $isShowDetailPresented) {
-                    ShowDetailView()
+                    ShowDetailView(viewModel: sViewModel)
                 }
         }
     }

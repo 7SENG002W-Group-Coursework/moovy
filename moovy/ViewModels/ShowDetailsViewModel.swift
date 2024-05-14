@@ -1,9 +1,4 @@
-//
-//  ShowDetailsViewModel.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/12/24.
-//
+
 
 import Foundation
 import UIKit
@@ -64,37 +59,38 @@ class ShowDetailsViewModel: ObservableObject {
     }
     
     func checkBookMarked() {
-        
-        let uid = Auth.auth().currentUser!.uid
-        db.collection("users").document(uid)
-            .collection("show_watchlist").document(String(showDetails!.id))
-            .addSnapshotListener { [weak self] documentSnapshot, error in
-                guard let self = self else { return }
-                
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.errorMessage = "Error fetching document: \(error.localizedDescription)"
-                    }
-                    return
-                }
-                
-                guard let document = documentSnapshot else {
-                    DispatchQueue.main.async {
-                        self.errorMessage = "Error: Document snapshot is nil"
-                    }
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    if document.exists{
-                        self.showIsBookmarked = true
-                    } else {
-                        self.showIsBookmarked = false
-                    }
-                }
-                
+        guard let uid = Auth.auth().currentUser?.uid, let showID = showDetails?.id else {
+            DispatchQueue.main.async {
+                self.errorMessage = "Error: User not logged in or show details missing"
             }
+            return
+        }
+
+        db.collection("users").document(uid)
+          .collection("show_watchlist").document(String(showID))
+          .addSnapshotListener { [weak self] documentSnapshot, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.errorMessage = "Error fetching document: \(error.localizedDescription)"
+                }
+                return
+            }
+            
+            guard let document = documentSnapshot else {
+                DispatchQueue.main.async {
+                    self.errorMessage = "Error: Document snapshot is nil"
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.showIsBookmarked = document.exists
+            }
+        }
     }
+
     
     
     func fetchShowDetails(showId: Int, completion: @escaping () -> Void) async {
@@ -265,5 +261,9 @@ class ShowDetailsViewModel: ObservableObject {
             return nil
         }
     }
+    
+    
 }
+
+
 

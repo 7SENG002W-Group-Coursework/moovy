@@ -1,14 +1,8 @@
-//
-//  ShowDetailView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/12/24.
-//
 
 import SwiftUI
 
 struct ShowDetailView: View {
-    @EnvironmentObject var viewModel: ShowDetailsViewModel
+    @StateObject var viewModel: ShowDetailsViewModel
     @State private var selectedTab: Int = 0
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -204,7 +198,7 @@ struct ShowDetailView: View {
                     DispatchQueue.main.async {
                         viewModel.showIsBookmarked = (error == nil) ? false : true
                         showAlert = true
-                        alertMessage = error == nil ? "Removed from bookmarks!!!" : "Failed: An error occured"
+                        alertMessage = error == nil ? "Removed from watch list!!!" : "Failed: An error occured"
                     }
                 }
             }
@@ -214,7 +208,7 @@ struct ShowDetailView: View {
                     DispatchQueue.main.async {
                         viewModel.showIsBookmarked = (error == nil) ? true : false
                         showAlert = true
-                        alertMessage = error == nil ? "Added to bookmarks!!!" : "Failed: An error occured"
+                        alertMessage = error == nil ? "Added to watch list!!!" : "Failed: An error occured"
                     }
                 }
             }
@@ -223,6 +217,7 @@ struct ShowDetailView: View {
 }
 
 
+
 #Preview {
-    ShowDetailView()
+    ShowDetailView(viewModel: ShowDetailsViewModel())
 }

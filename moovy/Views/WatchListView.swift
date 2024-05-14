@@ -1,14 +1,8 @@
-//
-//  WatchListView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/9/24.
-//
 
 import SwiftUI
 
 struct WatchListView: View {
-    @StateObject private var viewModel = WatchListViewModel()
+    @StateObject var viewModel = WatchListViewModel()
     @EnvironmentObject var mViewModel: MovieDetailsViewModel
     @EnvironmentObject var sViewModel: ShowDetailsViewModel
     @State private var selectedTab: Int = 0
@@ -16,6 +10,12 @@ struct WatchListView: View {
     @State var isShowDetailPresented = false
     @State private var selectedMovie: SmallDisplay?
     @State private var selectedItem: HorizonalDisplayItem?
+    
+    init() {
+        UINavigationBar.appearance()
+            .largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 25)!, .foregroundColor: UIColor.white]
+        
+    }
     
     var body: some View {
         NavigationStack {
@@ -31,6 +31,7 @@ struct WatchListView: View {
                                 movieResultsView
                             }
                         }.tag(0)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 60, trailing: 0))
                         ScrollView(.vertical, showsIndicators: false) {
                             if viewModel.showWatchListH.isEmpty {
                                 placeholderViewNoResult
@@ -45,13 +46,21 @@ struct WatchListView: View {
                                 activeTextColor: .white.opacity(0.8),
                                 barIndicatorColor:
                             .secondaryAccentColor.opacity(0.7),
-                                heightOfContent: UIScreen.main.bounds.height)
+                                heightOfContent: UIScreen.main.bounds.height - 210)
                 }
                 .navigationTitle("WatchList")
                 .background(ColorManager.backgroundColor)
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 60, trailing: 0))
             .background(ColorManager.backgroundColor)
+        }.onAppear{
+                    Task{
+                        await viewModel.fetchShowsFromWatchlist{ error in
+                        }
+                        
+                        await viewModel.fetchMoviesFromWatchlist{ error in
+                        }
+                    }
         }
     }
     
@@ -70,7 +79,15 @@ struct WatchListView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $isMovieDetailPresented) {
+                .sheet(isPresented: $isMovieDetailPresented, onDismiss: {
+                    Task {
+                        await viewModel.fetchMoviesFromWatchlist{ error in
+                            if error == nil{
+                                selectedItem = item
+                            }
+                        }
+                    }
+                }) {
                     MovieDetailView(viewModel: mViewModel)
                 }
         }
@@ -94,29 +111,17 @@ struct WatchListView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $isShowDetailPresented) {
-                    ShowDetailView()
+                .sheet(isPresented: $isShowDetailPresented, onDismiss: {
+                    Task {
+                        await viewModel.fetchShowsFromWatchlist{error in
+                            if error == nil || mViewModel.movieDetails != nil {
+                                selectedItem = item
+                            }
+                        }
+                    }
+                }) {
+                    ShowDetailView(viewModel: sViewModel)
                 }
-        }
-    }
-    
-    private var placeholderView: some View {
-        HStack {
-            Spacer()
-            VStack {
-                Spacer(minLength: 200)
-                VStack {
-                    Image("NotFoundImage")
-                        .resizable()
-                        .cornerRadius(16)
-                        .frame(width: 120, height: 120)
-                    
-                    Text("Search for Movies and Tv Shows")
-                        .font(Font.system(size: 20, weight: .bold))
-                        .foregroundColor(Color.white)
-                }
-            }
-            Spacer()
         }
     }
     
@@ -131,13 +136,13 @@ struct WatchListView: View {
                         .cornerRadius(16)
                         .frame(width: 120, height: 120)
                     
-                    Text("Sorry, We Cannot Find What You Searched For :(")
+                    Text("You do not have anything in your watchliat :(")
                         .font(Font.system(size: 20, weight: .bold))
                         .foregroundColor(Color.white)
                         .frame(width: 260)
                         .multilineTextAlignment(.center)
                     
-                    Text("Try changing your search parameters and search again")
+                    Text("Add movies and shows to your watch list!!!")
                         .font(Font.system(size: 17, weight: .none))
                         .foregroundColor(Color.gray)
                         .frame(width: 260)
@@ -152,4 +157,7 @@ struct WatchListView: View {
 
 #Preview {
     WatchListView()
+        .environmentObject(WatchListViewModel())
+        .environmentObject(MovieDetailsViewModel())
+        .environmentObject(MovieDetailsViewModel())
 }

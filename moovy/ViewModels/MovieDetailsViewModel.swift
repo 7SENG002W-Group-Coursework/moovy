@@ -1,9 +1,3 @@
-//
-//  MovieDetailsViewModel.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/11/24.
-//
 
 
 import Foundation
@@ -66,11 +60,15 @@ class MovieDetailsViewModel: ObservableObject {
     }
     
     func checkBookMarked() {
-        print(">>>>>>>\(movieDetails)")
-        
-        let uid = Auth.auth().currentUser!.uid
+        guard let uid = Auth.auth().currentUser?.uid, let movieID = movieDetails?.id else {
+            DispatchQueue.main.async {
+                self.errorMessage = "Error: User not logged in or movie details missing"
+            }
+            return
+        }
+
         db.collection("users").document(uid)
-          .collection("movie_watchlist").document(String(movieDetails!.id))
+          .collection("movie_watchlist").document(String(movieID))
           .addSnapshotListener { [weak self] documentSnapshot, error in
             guard let self = self else { return }
             
@@ -88,16 +86,12 @@ class MovieDetailsViewModel: ObservableObject {
                 return
             }
             
-              DispatchQueue.main.async {
-                  if document.exists {
-                      self.movieIsBookmarked = true
-                  } else {
-                      self.movieIsBookmarked = false
-                  }
-              }
+            DispatchQueue.main.async {
+                self.movieIsBookmarked = document.exists
+            }
         }
     }
-    
+
     
     func fetchMovieDetails(movieId: Int, completion: @escaping () -> Void) async {
         guard var components = URLComponents(string: movieDetailsURLString) else {
@@ -152,6 +146,7 @@ class MovieDetailsViewModel: ObservableObject {
             }
         }
     }
+    
     func loadImage(from urlString: String) {
         guard let url = URL(string: BaseApi.imageUrl + urlString) else {
             print("Invalid URL")
@@ -201,7 +196,6 @@ class MovieDetailsViewModel: ObservableObject {
             print("Error loading image: \(error)")
         }
     }
-    
     
     func fetchGenreName(genreIds: [Int], mediaType: String) {
         guard let firstGenreId = genreIds.first else {

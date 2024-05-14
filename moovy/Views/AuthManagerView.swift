@@ -1,14 +1,9 @@
-//
-//  AuthManagerView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/12/24.
-//
 
 import SwiftUI
 
 struct AuthManagerView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    var wViewModel = WatchListViewModel()
     var mViewModel = MovieDetailsViewModel()
     var sViewModel = ShowDetailsViewModel()
     
@@ -17,6 +12,7 @@ struct AuthManagerView: View {
             if viewModel.isAuthenticated {
                 ContentView()
                     .environmentObject(viewModel)
+                    .environmentObject(wViewModel)
                     .environmentObject(mViewModel)
                     .environmentObject(sViewModel)
             } else {

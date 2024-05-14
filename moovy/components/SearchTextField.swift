@@ -1,9 +1,3 @@
-//
-//  SearchTextField.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/6/24.
-//
 
 import SwiftUI
 
@@ -35,6 +29,7 @@ struct SearchTextField: View {
                 }
                 .autocapitalization(.none)
                 .keyboardType(.default)
+                .padding(.horizontal, 10)
             if isFocused{
                 Button(action: {
                     searchText = ""
@@ -43,11 +38,12 @@ struct SearchTextField: View {
                     Text("Cancel")
                         .font(Font.system(size: 20, weight: .semibold))
                         .padding(5)
+                        .foregroundColor(ColorManager.accentColor)
                 })
             }
         }
         .frame(width: UIScreen.main.bounds.width, height: 45)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 15)
     }
     
     private func filterString(_ newString: String, _ binding: Binding<String>)

@@ -1,9 +1,3 @@
-//
-//  ContentView.swift
-//  moovy
-//
-//  Created by Anthony Gibah on 5/6/24.
-//
 
 import SwiftUI
 import FirebaseCore
@@ -28,7 +22,7 @@ struct ContentView: View {
                             .tag(NavTab.magnifyingglass)
                         WatchListView()
                             .tag(NavTab.bookmark)
-                        Login()
+                        SettingsView()
                             .tag(NavTab.gearshape)
                     }
                     

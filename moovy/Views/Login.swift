@@ -1,19 +1,15 @@
-//
-//  Login.swift
-//  moovy
-//
-//  Created by Oladimeji Oladiti on 07/05/2024.
-//
+
 import SwiftUI
 
 struct Login : View {
     @EnvironmentObject var viewModel: AuthViewModel
-    
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var passwordVisibility: Bool = false
     @State private var errorMessage: String = ""
     @FocusState var isFocused
+    @State var isRegisterSheetPresented = false
+    @State var isPasswordResetSheetPresented = false
 
     var body: some View {
         ZStack {
@@ -73,7 +69,7 @@ struct Login : View {
                                 .padding()
                         }
                     }
-                    if !viewModel.errorMessage.isEmpty && !isFocused {
+                    if !errorMessage.isEmpty && !isFocused {
                         VStack(alignment: .leading, spacing: 5) {
                             Text(viewModel.errorMessage)
                                 .multilineTextAlignment(.leading)
@@ -89,6 +85,25 @@ struct Login : View {
                         }
                     }
                     
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            isPasswordResetSheetPresented = true
+                        }) {
+                            Text("Reset password? ")
+                                .underline()
+                                .italic()
+                                .font(Font.system(size: 15, weight: .semibold))
+                                .foregroundColor(.gray)
+                        }.padding(.trailing, 10)
+                        .sheet(isPresented: $isPasswordResetSheetPresented, onDismiss: {
+                                
+                                }) {
+                                    PasswordResetView()
+                                }
+                            
+                    }
+                    
                     Button(action: logIn) {
                         Text("Log In")
                             .font(Font.system(size: 20, weight: .bold))
@@ -101,20 +116,40 @@ struct Login : View {
                             )
                     }.padding(20)
                     .disabled(viewModel.loading)
-                    Text("Sign Up")
-                        .underline()
-                        .font(Font.system(size: 13, weight: .bold))
-                        .foregroundColor(.gray)
-                        .padding(20)  
+                    
+                    Button(action: {
+                        isRegisterSheetPresented = true
+                    }) {
+                        HStack{
+                            Text("Don't have an account? ")
+                                .italic()
+                                .font(Font.system(size: 15, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(0)
+                            
+                            Text("Sign Up")
+                                .underline()
+                                .font(Font.system(size: 15, weight: .bold))
+                                .foregroundColor(.blue)
+                                .padding(0)
+                        }.padding(10)
+                        
+                    }.sheet(isPresented: $isRegisterSheetPresented, onDismiss: {
+                        Task{
+                            await viewModel.checkAuthentication()
+                        }
+                        }) {
+                            SignUp()
+                        }
                     
 
-                }
-                .padding()
+                }.padding()
             }
         }
     }
     
     private func logIn() {
+        errorMessage = ""
         if !username.isValidEmail() {
             errorMessage = "Invalid email address."
             return
@@ -125,20 +160,19 @@ struct Login : View {
         Task {
             await viewModel.loginUser(user: user){ result, error in
                 
-                viewModel.isAuthenticated = true
+                if error == nil {
+                    viewModel.isAuthenticated = true
+                }else{
+                    
+                    viewModel.isAuthenticated = false
+                    errorMessage = "Failed login. Check details or register."
+                    
+                }
                 
             }
         }
     }
-//    private func logout() {
-//        Task {
-//            await viewModel.signout(){ error in
-//                
-//                errorMessage = "\(String(describing: error))"
-//                
-//            }
-//        }
-//    }
+
 }
 
 #Preview {
